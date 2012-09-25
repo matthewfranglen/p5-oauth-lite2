@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 84;
+use Test::More tests => 90;
 
 use lib 't/lib';
 use TestPR;
@@ -81,6 +81,13 @@ sub request {
 
 
 my ($req, $res);
+$req = HTTP::Request->new("GET" => q{http://example.org/});
+$req->header("Authorization" => q{OAuth });
+$res = &request($req);
+ok(!$res->is_success, 'request should fail');
+is($res->code, 400, 'invalid access token');
+is($res->header("WWW-Authenticate"), q{OAuth realm='resource.example.org', error='invalid_request'}, 'invalid request');
+
 $req = HTTP::Request->new("GET" => q{http://example.org/});
 $req->header("Authorization" => sprintf(q{OAuth %s}, 'invalid_access_token'));
 $res = &request($req);
@@ -185,6 +192,13 @@ ok($res->is_success, 'request should not fail');
 is($res->content, q{{user: '1', scope: 'email'}}, 'successful response');
 
 # draft 23
+$req = HTTP::Request->new("GET" => q{http://example.org/});
+$req->header("Authorization" => q{Bearer });
+$res = &request($req);
+ok(!$res->is_success, 'request should fail');
+is($res->code, 400, 'invalid access token');
+is($res->header("WWW-Authenticate"), q{Bearer realm="resource.example.org", error="invalid_request"}, 'invalid request');
+
 $req = HTTP::Request->new("GET" => q{http://example.org/});
 $req->header("Authorization" => sprintf(q{Bearer %s}, 'invalid_access_token'));
 $res = &request($req);
