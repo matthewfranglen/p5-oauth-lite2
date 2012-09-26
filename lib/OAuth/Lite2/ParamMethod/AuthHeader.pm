@@ -51,7 +51,7 @@ Returns true if passed L<Plack::Request> object is matched for the type of this 
 sub match {
     my ($self, $req) = @_;
     my $header = $req->header("Authorization");
-    return ($header && $header =~ /^\s*(OAuth|Bearer)\s+(.*)$/);
+    return ($header && $header =~ /^\s*(OAuth|Bearer)(.*)$/);
 }
 
 =head2 parse( $plack_request )
@@ -162,7 +162,7 @@ Returns true if passed L<Plack::Request> object is based draft version 10.
 sub is_legacy {
     my ($self, $req) = @_;
     my $header = $req->header("Authorization");
-    return ($header && $header =~ /^\s*OAuth\s+(.*)$/);
+    return ($header && $header =~ /^\s*OAuth(.*)$/);
 }
 
 =head1 SEE ALSO
