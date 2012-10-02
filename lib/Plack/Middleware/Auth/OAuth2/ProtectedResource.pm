@@ -44,13 +44,14 @@ sub call {
         Carp::croak "OAuth::Lite2::Server::DataHandler::get_access_token doesn't return OAuth::Lite2::Model::AccessToken"
             unless $access_token->isa("OAuth::Lite2::Model::AccessToken");
 
-        if($is_legacy){
-            OAuth::Lite2::Server::Error::ExpiredTokenLegacy->throw
-                unless ($access_token->created_on + $access_token->expires_in > time());
-        }else{
-            OAuth::Lite2::Server::Error::ExpiredToken->throw
-                unless ($access_token->created_on + $access_token->expires_in > time());
-        }
+        unless ($access_token->created_on + $access_token->expires_in > time())
+        {
+            if($is_legacy){
+                OAuth::Lite2::Server::Error::ExpiredTokenLegacy->throw;
+            }else{
+                OAuth::Lite2::Server::Error::ExpiredToken->throw;
+            }
+        } 
 
         my $auth_info = $dh->get_auth_info_by_id($access_token->auth_id);
 
