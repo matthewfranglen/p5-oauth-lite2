@@ -67,9 +67,11 @@ sub call {
         $dh->validate_user_by_id($auth_info->user_id)
             or OAuth::Lite2::Server::Error::InvalidToken->throw;
 
-        $env->{REMOTE_USER}    = $auth_info->user_id;
-        $env->{X_OAUTH_CLIENT} = $auth_info->client_id;
-        $env->{X_OAUTH_SCOPE}  = $auth_info->scope if $auth_info->scope;
+        $env->{REMOTE_USER}         = $auth_info->user_id;
+        $env->{X_OAUTH_CLIENT}      = $auth_info->client_id;
+        $env->{X_OAUTH_SCOPE}       = $auth_info->scope if $auth_info->scope;
+        # pass legacy flag
+        $env->{X_OAUTH_IS_LEGACY}   = ($is_legacy);
 
         return;
 
@@ -79,16 +81,17 @@ sub call {
 
             my @params;
             if($is_legacy){
-                push(@params, sprintf(q{realm='%s'}, $self->{realm}))
-                    if $self->{realm};
                 push(@params, sprintf(q{error='%s'}, $_->type));
                 push(@params, sprintf(q{error-desc='%s'}, $_->description))
                     if $_->description;
                 push(@params, sprintf(q{error-uri='%s'}, $self->{error_uri}))
                     if $self->{error_uri};
+                push(@params, sprintf(q{realm='%s'}, $self->{realm}))
+                    if $self->{realm};
 
+                # delete space
                 return [ $_->code, [ "WWW-Authenticate" =>
-                    "OAuth " . join(', ', @params) ], [  ] ];
+                    "OAuth " . join(',', @params) ], [  ] ];
             }else{
                 push(@params, sprintf(q{realm="%s"}, $self->{realm}))
                     if $self->{realm};
