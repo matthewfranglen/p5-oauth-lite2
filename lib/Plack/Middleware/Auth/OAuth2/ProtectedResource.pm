@@ -89,7 +89,7 @@ sub call {
                 push(@params, sprintf(q{realm='%s'}, $self->{realm}))
                     if $self->{realm};
 
-                # delete space
+                # At legacy response, header value is delimited by comma.
                 return [ $_->code, [ "WWW-Authenticate" =>
                     "OAuth " . join(',', @params) ], [  ] ];
             }else{
@@ -101,6 +101,7 @@ sub call {
                 push(@params, sprintf(q{error_uri="%s"}, $self->{error_uri}))
                     if $self->{error_uri};
 
+                # At latest response, header value is delimited by comma-space.
                 return [ $_->code, [ "WWW-Authenticate" =>
                     "Bearer " . join(', ', @params) ], [  ] ];
             }
