@@ -191,9 +191,8 @@ sub basic_credentials{
     my $header = $req->header("Authorization");
     return \%credentials unless (defined($header));
 
-    $header =~ /^\s*(Basic)(.*)$/;
     my $decoded;
-    if($header){
+    if ( $header =~ /\A\s*(Basic)\s([^\s\,]*)/ ){
         $decoded = decode_base64($2);
         return \%credentials unless (index($decoded,':') > 0);
 
