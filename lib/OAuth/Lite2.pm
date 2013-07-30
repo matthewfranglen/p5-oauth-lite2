@@ -3,7 +3,7 @@ package OAuth::Lite2;
 use strict;
 use warnings;
 
-our $VERSION = '0.02_03';
+our $VERSION = '0.04';
 
 1;
 __END__
@@ -15,6 +15,9 @@ OAuth::Lite2 - OAuth 2.0 Library
 =head1 DESCRIPTION
 
 OAuth 2.0 Library
+
+The maintainer of this CPAN module was transferred to ritou by lyokato.
+Main repository is https://github.com/ritou/p5-oauth-lite2.
 
 =head1 SEE ALSO
 
@@ -30,6 +33,7 @@ L<Plack::Middleware::Auth::OAuth2::ProtectedResource>
 
 =head1 AUTHOR
 
+Ryo Ito, E<lt>ritou.06@gmail.comE<gt>
 Lyo Kato, E<lt>lyo.kato@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE

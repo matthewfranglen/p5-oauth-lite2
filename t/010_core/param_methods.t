@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 164;
+use Test::More;
 
 use OAuth::Lite2::ParamMethods qw(AUTH_HEADER FORM_BODY URI_QUERY);
 use Try::Tiny;
@@ -160,7 +160,7 @@ TEST_AUTH_HEADER: {
             buz => 'hoge',
         },
     );
-    is($req->uri, q{http://example.org/resource?buz=hoge&foo=bar});
+    like($req->uri, qr/\Ahttp:\/\/example\.org\/resource\?.+\z/);
     is($req->header("Authorization"), q{Bearer access_token_value});
     is(uc $req->method, q{GET});
     ok(!$req->content);
@@ -193,7 +193,7 @@ TEST_AUTH_HEADER: {
             buz => 'hoge',
         },
     );
-    is($req->uri, q{http://example.org/resource?buz=hoge&foo=bar});
+    like($req->uri, qr/\Ahttp:\/\/example\.org\/resource\?.+\z/);
     is($req->header("Authorization"), q{Bearer access_token_value});
     is(uc $req->method, q{GET});
     ok(!$req->content);
@@ -680,3 +680,5 @@ TEST_URI_QUERY: {
     is($req->content, q{<content>value</content>});
 
 };
+
+done_testing;
