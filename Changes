@@ -2,6 +2,23 @@ Revision history for Perl extension OAuth::Lite2.
 
 {{$NEXT}}
 
+0.05 2013-07-30T05:16:26Z
+    - rebuild
+
+0.04 2013-07-30T04:46:27Z
+    - fixed some bugs and WARNINGs
+      * migrated to Minilla
+      * removed podchecker's WARNINGs
+      * fixed uuv for parsing Basic Auth header
+      * fixed tests for Perl 5.18.0 env
+      * used authorization_basic method to generate basic authorization header
+      * removed unused method
+
+0.03  Sun Mar 03 00:57:00 2013
+    - bugfix by ritou
+      https://github.com/lyokato/p5-oauth-lite2/pull/8
+      https://github.com/lyokato/p5-oauth-lite2/pull/7
+
 0.02_03  Wed Jun 20 17:40:00 2012
     - bugfix by ritou
       https://github.com/lyokato/p5-oauth-lite2/pull/6
